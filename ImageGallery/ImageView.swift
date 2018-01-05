@@ -10,7 +10,34 @@ import UIKit
 
 class ImageView: UIView {
     
-    var image: UIImage? { didSet { setNeedsDisplay()} }
+    var imageURL: URL? {
+        didSet{
+            fetchImage()
+        }
+    }
+    
+    var image: UIImage? {
+        didSet {
+            setNeedsDisplay()
+            if let loadingView = subviews.first as? UIActivityIndicatorView {
+                loadingView.isHidden = true
+            }
+        }
+        
+    }
+    
+    private func fetchImage() {
+        if let url = imageURL {
+            DispatchQueue.global(qos: .userInitiated).async {
+                let urlContents = try? Data(contentsOf: url)
+                DispatchQueue.main.async {
+                    if let imageData = urlContents {
+                        self.image = UIImage(data: imageData)
+                    }
+                }
+            }
+        }
+    }
 
     override func draw(_ rect: CGRect ) {
          image?.draw(in: bounds)

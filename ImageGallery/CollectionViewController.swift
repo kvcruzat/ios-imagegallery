@@ -98,9 +98,11 @@ class CollectionViewController: UICollectionViewController, UIDropInteractionDel
         print("DQ \(imageCollection.count)")
         
         if let imageCell = cell as? ImageCollectionViewCell {
+            imageCell.imageView.image = nil
+            imageCell.loadingView.isHidden = false
             print(imageCollection.count, imageCollection[indexPath.item].url)
             imageCell.imageView.frame.size = CGSize(width: width, height: width/imageCollection[indexPath.item].ratio)
-            imageCell.imageView.image = fetchImage(url: imageCollection[indexPath.item].url)
+            imageCell.imageView.imageURL = imageCollection[indexPath.item].url
         }
     
         // Configure the cell
@@ -138,14 +140,5 @@ class CollectionViewController: UICollectionViewController, UIDropInteractionDel
     
     }
     */
-    
-    private func fetchImage(url: URL) -> UIImage? {
-        let urlContents = try? Data(contentsOf: url)
-        if let imageData = urlContents {
-            return UIImage(data: imageData)
-        } else {
-            return nil
-        }
-    }
 
 }

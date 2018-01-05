@@ -10,4 +10,5 @@ import UIKit
 
 class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: ImageView!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
 }
