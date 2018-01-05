@@ -34,16 +34,16 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuX-mA-hsM" customClass="ImageView" customModule="ImageGallery" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="XhS-c2-xT2">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-Hg-nej">
                                                     <rect key="frame" x="8" y="8" width="34" height="34"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="XhS-c2-xT2" firstAttribute="top" secondItem="BuX-mA-hsM" secondAttribute="top" constant="8" id="5jy-aQ-Faa"/>
-                                                <constraint firstAttribute="bottom" secondItem="XhS-c2-xT2" secondAttribute="bottom" constant="8" id="Ddr-GF-6Cd"/>
-                                                <constraint firstItem="XhS-c2-xT2" firstAttribute="leading" secondItem="BuX-mA-hsM" secondAttribute="leading" constant="8" id="Rq2-Eo-7Gb"/>
-                                                <constraint firstAttribute="trailing" secondItem="XhS-c2-xT2" secondAttribute="trailing" constant="8" id="fjj-1E-64h"/>
+                                                <constraint firstAttribute="bottom" secondItem="gTH-Hg-nej" secondAttribute="bottom" constant="8" id="cyZ-Jw-HwV"/>
+                                                <constraint firstItem="gTH-Hg-nej" firstAttribute="top" secondItem="BuX-mA-hsM" secondAttribute="top" constant="8" id="fc6-zS-OSv"/>
+                                                <constraint firstItem="gTH-Hg-nej" firstAttribute="leading" secondItem="BuX-mA-hsM" secondAttribute="leading" constant="8" id="hAB-h1-nNt"/>
+                                                <constraint firstAttribute="trailing" secondItem="gTH-Hg-nej" secondAttribute="trailing" constant="8" id="wlq-3a-ND1"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -56,7 +56,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="BuX-mA-hsM" id="boD-z0-iEr"/>
-                                    <outlet property="loadingView" destination="XhS-c2-xT2" id="ivz-hR-1Gw"/>
+                                    <outlet property="loadingView" destination="gTH-Hg-nej" id="uKc-xA-7qV"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

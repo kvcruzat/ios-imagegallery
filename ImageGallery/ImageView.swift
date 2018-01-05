@@ -20,7 +20,7 @@ class ImageView: UIView {
         didSet {
             setNeedsDisplay()
             if let loadingView = subviews.first as? UIActivityIndicatorView {
-                loadingView.isHidden = true
+                loadingView.stopAnimating()
             }
         }
         

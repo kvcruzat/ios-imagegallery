@@ -8,7 +8,11 @@
 
 import UIKit
 
-class CollectionViewController: UICollectionViewController, UIDropInteractionDelegate, UICollectionViewDelegateFlowLayout {
+class CollectionViewController: UICollectionViewController, UICollectionViewDragDelegate, UICollectionViewDropDelegate,  UICollectionViewDelegateFlowLayout {
+    
+    var flowLayout: UICollectionViewFlowLayout? {
+        return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
+    }
     
     var imageCollection = [(url: URL,ratio: Double)]()
     let width = 500.0
@@ -20,50 +24,17 @@ class CollectionViewController: UICollectionViewController, UIDropInteractionDel
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes        
-        self.collectionView!.addInteraction(UIDropInteraction(delegate: self))
-
+//        self.collectionView!.addInteraction(UIDropInteraction(delegate: self))
+        self.collectionView!.dataSource = self
+        self.collectionView!.delegate = self
+        self.collectionView!.dragDelegate = self
+        self.collectionView!.dropDelegate = self
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return session.canLoadObjects(ofClass: NSURL.self) && session.canLoadObjects(ofClass: UIImage.self)
-    }
-
-    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
-        return UIDropProposal(operation: .copy)
-    }
-    
-    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        
-        var imageURL: URL?
-        var aspectRatio: Double?
-        
-        session.loadObjects(ofClass: NSURL.self) { nsurls in
-            if let url = nsurls.first as? URL {
-                imageURL = url.imageURL
-                print(imageURL!)
-            }
-        }
-            
-        session.loadObjects(ofClass: UIImage.self) { images in
-            if let image = images.first as? UIImage {
-                aspectRatio = Double(image.size.width / image.size.height)
-                print(aspectRatio!)
-                
-                if imageURL != nil, aspectRatio != nil {
-                    print("NOTNIL")
-                    self.imageCollection.append((url: imageURL!, ratio: aspectRatio!))
-                    self.collectionView!.reloadData()
-                } else {
-                    print("NIL")
-                }
-            }
-        }
     }
     
     /*
@@ -99,15 +70,98 @@ class CollectionViewController: UICollectionViewController, UIDropInteractionDel
         
         if let imageCell = cell as? ImageCollectionViewCell {
             imageCell.imageView.image = nil
-            imageCell.loadingView.isHidden = false
+            imageCell.loadingView.startAnimating()
             print(imageCollection.count, imageCollection[indexPath.item].url)
             imageCell.imageView.frame.size = CGSize(width: width, height: width/imageCollection[indexPath.item].ratio)
+            flowLayout?.invalidateLayout()
             imageCell.imageView.imageURL = imageCollection[indexPath.item].url
         }
     
         // Configure the cell
     
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        session.localContext = collectionView
+        return dragItems(at: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+        return dragItems(at: indexPath)
+    }
+
+    private func dragItems(at indexPath: IndexPath) -> [UIDragItem] {
+        if let image = (collectionView?.cellForItem(at: indexPath) as? ImageCollectionViewCell)?.imageView.image {
+            let dragItem = UIDragItem(itemProvider: NSItemProvider(object: image))
+            dragItem.localObject = image
+            return [dragItem]
+        } else {
+            return []
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+        return session.canLoadObjects(ofClass: UIImage.self)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        let isSelf = (session.localDragSession?.localContext as? UICollectionView) == collectionView
+        return UICollectionViewDropProposal(operation: isSelf ? .move : .copy, intent: .insertAtDestinationIndexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+        print("number of Items: \(coordinator.items.count)")
+        for item in coordinator.items {
+            if let sourceIndexPath = item.sourceIndexPath {
+                collectionView.performBatchUpdates({
+                    let imageInfo = imageCollection[sourceIndexPath.item]
+                    imageCollection.remove(at: sourceIndexPath.item)
+                    imageCollection.insert(imageInfo, at: destinationIndexPath.item)
+                    collectionView.deleteItems(at: [sourceIndexPath])
+                    collectionView.insertItems(at: [destinationIndexPath])
+                })
+                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+            } else {
+                let placeholderContext = coordinator.drop(item.dragItem, to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: "ImageCell"))
+                
+                let cell = placeholderContext as? ImageCollectionViewCell
+                cell?.loadingView.startAnimating()
+                
+                var imageURL: URL?
+                var aspectRatio: Double?
+                
+                item.dragItem.itemProvider.loadObject(ofClass: NSURL.self) { (provider, error) in
+                    DispatchQueue.main.async {
+                        if let url = provider as? URL {
+                            imageURL = url.imageURL
+                        }
+                    }
+                }
+                
+                item.dragItem.itemProvider.loadObject(ofClass: UIImage.self) { (provider, error) in
+                    DispatchQueue.main.async {
+                        if let image = provider as? UIImage {
+                            aspectRatio = Double(image.size.width / image.size.height)
+                            cell?.frame.size = CGSize(width: self.width, height: self.width/aspectRatio!)
+                            print(aspectRatio!)
+                            
+                            if imageURL != nil, aspectRatio != nil {
+                                print("NOTNIL")
+                                placeholderContext.commitInsertion(dataSourceUpdates: { insertionIndexPath in
+                                    self.imageCollection.insert((url: imageURL!, ratio: aspectRatio!), at: insertionIndexPath.item)
+                                })
+                            } else {
+                                print("NIL")
+                                placeholderContext.deletePlaceholder()
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
     }
 
     // MARK: UICollectionViewDelegate
