@@ -15,8 +15,28 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
     }
     
     var imageCollection = [(url: URL,ratio: Double)]()
-    let width = 500.0
+    var width = 300.0
 
+    @IBAction func zoomGallery(_ sender: UIPinchGestureRecognizer) {
+        let maxWidth = Double(collectionView!.frame.width) * 0.45
+        let minWidth = Double(collectionView!.frame.width) * 0.1
+        
+        if sender.state == .began || sender.state == .changed {
+            let newWidth = width * Double(sender.scale)
+            if newWidth < minWidth {
+                width = minWidth
+            }  else if newWidth > maxWidth  {
+                width = maxWidth
+            } else {
+                width = newWidth
+                flowLayout?.invalidateLayout()
+            }
+        
+            sender.scale = 1.0
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

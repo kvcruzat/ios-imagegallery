@@ -17,6 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Zi-4p-ib5">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -63,10 +64,16 @@
                         <connections>
                             <outlet property="dataSource" destination="0Cl-Fi-gHK" id="1gO-bZ-pbV"/>
                             <outlet property="delegate" destination="0Cl-Fi-gHK" id="NQL-d3-fjn"/>
+                            <outletCollection property="gestureRecognizers" destination="5xc-ks-Gie" appends="YES" id="ay9-bz-Cmm"/>
                         </connections>
                     </collectionView>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MCa-SB-TNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="5xc-ks-Gie">
+                    <connections>
+                        <action selector="zoomGallery:" destination="0Cl-Fi-gHK" id="Pwk-hJ-rZy"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="800.79999999999995" y="81.409295352323838"/>
         </scene>
