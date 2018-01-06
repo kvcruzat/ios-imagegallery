@@ -14,8 +14,8 @@
             <objects>
                 <splitViewController id="lph-yP-T5f" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="0Cl-Fi-gHK" kind="showDetail" id="HlP-ve-8MZ"/>
                         <segue destination="TM1-oi-Qfu" kind="relationship" relationship="masterViewController" id="1do-pe-zz8"/>
+                        <segue destination="0Cl-Fi-gHK" kind="relationship" relationship="detailViewController" id="d4V-g6-c2M"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lcc-Sv-Efz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -32,23 +32,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GalleryCell" textLabel="Vbz-iV-anA" style="IBUITableViewCellStyleDefault" id="TG3-ug-fY5" customClass="GalleryViewCell" customModule="ImageGallery" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GalleryCell" id="TG3-ug-fY5" customClass="GalleryViewCell" customModule="ImageGallery" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TG3-ug-fY5" id="unf-f3-mN5">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vbz-iV-anA">
-                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w3q-Qx-7Lm">
+                                            <rect key="frame" x="3" y="8" width="314" height="27.5"/>
                                             <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="H3C-e9-DDX" id="f7f-a1-LU3"/>
+                                            </connections>
+                                        </textField>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="w3q-Qx-7Lm" secondAttribute="trailing" constant="3" id="75t-8k-n35"/>
+                                        <constraint firstItem="w3q-Qx-7Lm" firstAttribute="top" secondItem="unf-f3-mN5" secondAttribute="top" constant="8" id="AJr-SE-oyZ"/>
+                                        <constraint firstItem="w3q-Qx-7Lm" firstAttribute="leading" secondItem="unf-f3-mN5" secondAttribute="leading" constant="3" id="O43-2y-IfT"/>
+                                        <constraint firstAttribute="bottom" secondItem="w3q-Qx-7Lm" secondAttribute="bottom" constant="8" id="pyC-ii-c6e"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
                                 <connections>
+                                    <outlet property="textField" destination="w3q-Qx-7Lm" id="gMZ-b6-atn"/>
                                     <segue destination="0Cl-Fi-gHK" kind="showDetail" identifier="Choose Gallery" id="SMD-LA-yPe"/>
                                 </connections>
                             </tableViewCell>
@@ -65,6 +75,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="newButton" destination="oun-SH-BzP" id="TAB-dT-41m"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1019.4244604316548" y="123.56115107913669"/>

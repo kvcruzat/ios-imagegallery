@@ -8,11 +8,38 @@
 
 import UIKit
 
-class TableViewController: UITableViewController, UISplitViewControllerDelegate {
+class TableViewController: UITableViewController, UISplitViewControllerDelegate, UITextFieldDelegate {
     
     var galleries = [(name: String, gallery: [Image])]()
     var tempGalleries = [(name: String, gallery: [Image])]()
     var deletedGalleries = [(name: String, gallery: [Image])]()
+
+    @IBOutlet weak var newButton: UIBarButtonItem!
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text!.count < 1 {
+            return false
+        } else {
+            textField.resignFirstResponder()
+            return true
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let cell = textField.superview?.superview as? GalleryViewCell, let indexPath = tableView.indexPath(for: cell) {
+            galleries[indexPath.row].name = textField.text!
+        }
+        
+        textField.isEnabled = false
+        tableView.allowsSelection = true
+        newButton.isEnabled = true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        tableView.allowsSelection = false
+        newButton.isEnabled = false
+        
+    }
 
     @IBAction func newGallery(_ sender: UIBarButtonItem) {
         let selectedIndexPath = tableView.indexPathForSelectedRow
@@ -61,13 +88,13 @@ class TableViewController: UITableViewController, UISplitViewControllerDelegate 
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GalleryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "GalleryCell", for: indexPath) as! GalleryViewCell
 
         // Configure the cell...
         if indexPath.section == 0 {
-            cell.textLabel?.text = galleries[indexPath.row].name
+            cell.textField.text = galleries[indexPath.row].name
         } else {
-            cell.textLabel?.text = deletedGalleries[indexPath.row].name
+            cell.textField.text = deletedGalleries[indexPath.row].name
             cell.selectionStyle = .none
         }
         
