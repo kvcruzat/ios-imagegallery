@@ -84,7 +84,6 @@ class TableViewController: UITableViewController {
     }
     */
 
-
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -103,6 +102,35 @@ class TableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 1 {
+            let undeleteAction = contextualUndeleteAction(forRowAtIndexPath: indexPath)
+            let swipeConfig = UISwipeActionsConfiguration(actions: [undeleteAction])
+            return swipeConfig
+        } else {
+            return nil
+        }
+        
+    }
+    
+    func contextualUndeleteAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal,
+                                        title: "Undelete") {_,_,_ in
+                                            self.tableView.beginUpdates()
+                                            self.tempGalleries += [self.deletedGalleries.remove(at: indexPath.row)]
+                                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                                            
+                                            self.galleries += [self.tempGalleries.removeFirst()]
+                                            self.tableView.insertRows(at: [IndexPath(row: self.galleries.count - 1, section: 0)], with: .automatic)
+                                            self.tableView.endUpdates()
+                                            self.tableView.reloadData()
+                                        
+        }
+        
+        return action
     }
 
     /*
