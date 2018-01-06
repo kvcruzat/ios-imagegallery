@@ -14,7 +14,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
         return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
     }
     
-    var imageCollection = [(url: URL,ratio: Double)]()
+    var imageCollection = [Image]()
     var width = 300.0
 
     @IBAction func zoomGallery(_ sender: UIPinchGestureRecognizer) {
@@ -170,7 +170,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
                             if imageURL != nil, aspectRatio != nil {
                                 print("NOTNIL")
                                 placeholderContext.commitInsertion(dataSourceUpdates: { insertionIndexPath in
-                                    self.imageCollection.insert((url: imageURL!, ratio: aspectRatio!), at: insertionIndexPath.item)
+                                    self.imageCollection.insert(Image(imageUrl: imageURL!, aspectRatio: aspectRatio!), at: insertionIndexPath.item)
                                 })
                             } else {
                                 print("NIL")
