@@ -25,6 +25,7 @@
         <!--Table View Controller-->
         <scene sceneID="bxK-Ak-PtZ">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CuV-VJ-4g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="H3C-e9-DDX" customClass="TableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CnR-4o-Ksk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1112"/>
@@ -47,6 +48,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="0Cl-Fi-gHK" kind="showDetail" identifier="Choose Gallery" id="SMD-LA-yPe"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -62,7 +66,6 @@
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CuV-VJ-4g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1019.4244604316548" y="123.56115107913669"/>
         </scene>
@@ -153,4 +156,7 @@
             <point key="canvasLocation" x="78" y="102"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="SMD-LA-yPe"/>
+    </inferredMetricsTieBreakers>
 </document>

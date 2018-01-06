@@ -8,18 +8,26 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UITableViewController, UISplitViewControllerDelegate {
     
     var galleries = [(name: String, gallery: [Image])]()
     var tempGalleries = [(name: String, gallery: [Image])]()
     var deletedGalleries = [(name: String, gallery: [Image])]()
 
     @IBAction func newGallery(_ sender: UIBarButtonItem) {
+        let selectedIndexPath = tableView.indexPathForSelectedRow
+        
         galleries += [(name: "Untitled".madeUnique(withRespectTo: galleries.map{ $0.name }), gallery: [])]
         tableView.reloadData()
+        
+        if selectedIndexPath != nil {
+            tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+        }
     }
     
-    
+    override func awakeFromNib() {
+        splitViewController?.delegate = self
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +68,7 @@ class TableViewController: UITableViewController {
             cell.textLabel?.text = galleries[indexPath.row].name
         } else {
             cell.textLabel?.text = deletedGalleries[indexPath.row].name
+            cell.selectionStyle = .none
         }
         
 
@@ -119,15 +128,14 @@ class TableViewController: UITableViewController {
         
         let action = UIContextualAction(style: .normal,
                                         title: "Undelete") {_,_,_ in
-                                            self.tableView.beginUpdates()
                                             self.tempGalleries += [self.deletedGalleries.remove(at: indexPath.row)]
                                             self.tableView.deleteRows(at: [indexPath], with: .fade)
                                             
                                             self.galleries += [self.tempGalleries.removeFirst()]
                                             self.tableView.insertRows(at: [IndexPath(row: self.galleries.count - 1, section: 0)], with: .automatic)
-                                            self.tableView.endUpdates()
+                                            
                                             self.tableView.reloadData()
-                                        
+
         }
         
         return action
@@ -148,14 +156,42 @@ class TableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
+    
+    private var splitViewDetailCollectionController: CollectionViewController? {
+        return splitViewController?.viewControllers.last as? CollectionViewController
+    }
+    
+    private var lastSeguedToCollectionViewController: CollectionViewController?
+    private var lastSelectedCell: UITableViewCell?
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if let cell = sender as? UITableViewCell {
+            if tableView.indexPath(for: cell)?.section == 0 { return true }
+            else { return false }
+        } else {
+            return false
+        }
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Choose Gallery" {
+            
+            if let cvc = splitViewDetailCollectionController, let cell = lastSelectedCell, let indexPath = tableView.indexPath(for: cell){
+                galleries[indexPath.row].gallery = cvc.imageCollection
+            }
+            
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let vc = segue.destination as? CollectionViewController {
+                    print("NUMBER OF PICTURES: \(galleries[indexPath.row].gallery.count)")
+                    vc.imageCollection = galleries[indexPath.row].gallery
+                    lastSeguedToCollectionViewController = vc
+                    lastSelectedCell = cell
+            }
+        }
     }
-    */
 
 }

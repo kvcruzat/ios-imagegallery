@@ -9,7 +9,7 @@
 import UIKit
 
 class GalleryViewCell: UITableViewCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
