@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lph-yP-T5f">
-    <device id="ipad10_5" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,7 +16,7 @@
                 <splitViewController id="lph-yP-T5f" sceneMemberID="viewController">
                     <connections>
                         <segue destination="TM1-oi-Qfu" kind="relationship" relationship="masterViewController" id="1do-pe-zz8"/>
-                        <segue destination="0Cl-Fi-gHK" kind="relationship" relationship="detailViewController" id="d4V-g6-c2M"/>
+                        <segue destination="hfO-sH-mQe" kind="relationship" relationship="detailViewController" id="d4V-g6-c2M"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lcc-Sv-Efz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -25,10 +26,9 @@
         <!--Table View Controller-->
         <scene sceneID="bxK-Ak-PtZ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CuV-VJ-4g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="H3C-e9-DDX" customClass="TableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CnR-4o-Ksk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -59,7 +59,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="textField" destination="w3q-Qx-7Lm" id="gMZ-b6-atn"/>
-                                    <segue destination="0Cl-Fi-gHK" kind="showDetail" identifier="Choose Gallery" id="SMD-LA-yPe"/>
+                                    <segue destination="hfO-sH-mQe" kind="showDetail" identifier="Choose Gallery" id="SMD-LA-yPe"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -79,6 +79,7 @@
                         <outlet property="newButton" destination="oun-SH-BzP" id="TAB-dT-41m"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CuV-VJ-4g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1019.4244604316548" y="123.56115107913669"/>
         </scene>
@@ -87,7 +88,7 @@
             <objects>
                 <collectionViewController id="0Cl-Fi-gHK" customClass="CollectionViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="fUq-fc-AsR">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -108,7 +109,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BuX-mA-hsM" customClass="ImageView" customModule="ImageGallery" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-Hg-nej">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-Hg-nej">
                                                     <rect key="frame" x="8" y="8" width="34" height="34"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -131,6 +132,7 @@
                                 <connections>
                                     <outlet property="imageView" destination="BuX-mA-hsM" id="boD-z0-iEr"/>
                                     <outlet property="loadingView" destination="gTH-Hg-nej" id="uKc-xA-7qV"/>
+                                    <segue destination="kn6-iY-pN2" kind="show" identifier="Choose Image" id="yQB-OU-Kxy"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -140,6 +142,7 @@
                             <outletCollection property="gestureRecognizers" destination="5xc-ks-Gie" appends="YES" id="ay9-bz-Cmm"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" id="pN3-aI-rjK"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MCa-SB-TNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="5xc-ks-Gie">
@@ -148,7 +151,36 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="399" y="859"/>
+            <point key="canvasLocation" x="1267" y="966"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="JDW-Lt-2Br">
+            <objects>
+                <viewController id="kn6-iY-pN2" customClass="ImageViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZxY-mq-TvF">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O4L-QU-yY4">
+                                <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="O4L-QU-yY4" firstAttribute="top" secondItem="ysC-eo-FuC" secondAttribute="top" id="EXL-bG-s3z"/>
+                            <constraint firstItem="O4L-QU-yY4" firstAttribute="leading" secondItem="ysC-eo-FuC" secondAttribute="leading" id="O4K-Ly-SEo"/>
+                            <constraint firstItem="ysC-eo-FuC" firstAttribute="trailing" secondItem="O4L-QU-yY4" secondAttribute="trailing" id="WjI-ec-Idd"/>
+                            <constraint firstItem="ysC-eo-FuC" firstAttribute="bottom" secondItem="O4L-QU-yY4" secondAttribute="bottom" id="xYt-dy-pTT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ysC-eo-FuC"/>
+                    </view>
+                    <connections>
+                        <outlet property="scrollView" destination="O4L-QU-yY4" id="toT-La-a4z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zty-Gt-CFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2147" y="960"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ma2-qv-kNE">
@@ -167,6 +199,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TOH-Ki-8Cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="78" y="102"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OyT-mw-jz0">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hfO-sH-mQe" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9jY-iB-jVS">
+                        <rect key="frame" x="0.0" y="20" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0Cl-Fi-gHK" kind="relationship" relationship="rootViewController" id="hBm-fm-76I"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2uG-A5-SAX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="398.56115107913672" y="858.99280575539569"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

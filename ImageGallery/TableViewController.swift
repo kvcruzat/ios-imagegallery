@@ -186,8 +186,15 @@ class TableViewController: UITableViewController, UISplitViewControllerDelegate,
 
     // MARK: - Navigation
     
+    override func viewWillLayoutSubviews() {
+        if splitViewController?.preferredDisplayMode != .primaryOverlay {
+            splitViewController?.preferredDisplayMode = .primaryOverlay
+        }
+    }
+    
     private var splitViewDetailCollectionController: CollectionViewController? {
-        return splitViewController?.viewControllers.last as? CollectionViewController
+        let navCon = splitViewController?.viewControllers.last as? UINavigationController
+        return navCon?.viewControllers.first as? CollectionViewController
     }
     
     private var lastSeguedToCollectionViewController: CollectionViewController?
@@ -212,7 +219,7 @@ class TableViewController: UITableViewController, UISplitViewControllerDelegate,
                 galleries[indexPath.row].gallery = cvc.imageCollection
             }
             
-            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let vc = segue.destination as? CollectionViewController {
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let navCon = segue.destination as? UINavigationController, let vc = navCon.viewControllers.first as? CollectionViewController {
                     print("NUMBER OF PICTURES: \(galleries[indexPath.row].gallery.count)")
                     vc.imageCollection = galleries[indexPath.row].gallery
                     lastSeguedToCollectionViewController = vc

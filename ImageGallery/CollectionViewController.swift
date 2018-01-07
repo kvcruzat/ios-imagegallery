@@ -14,6 +14,8 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
         return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
     }
     
+    @IBOutlet weak var navGalleryItem: UIBarButtonItem!
+    
     var imageCollection = [Image]()
     var width = 300.0
 
@@ -39,6 +41,8 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -52,10 +56,6 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     /*
     // MARK: - Navigation
@@ -89,10 +89,9 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
         print("DQ \(imageCollection.count)")
         
         if let imageCell = cell as? ImageCollectionViewCell {
-            imageCell.imageView.image = nil
-            imageCell.loadingView.startAnimating()
             print(imageCollection.count, imageCollection[indexPath.item].url)
             imageCell.imageView.frame.size = CGSize(width: width, height: width/imageCollection[indexPath.item].ratio)
+//            imageCell.loadingView.startAnimating()
             flowLayout?.invalidateLayout()
             imageCell.imageView.imageURL = imageCollection[indexPath.item].url
         }
@@ -147,7 +146,6 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
                 let placeholderContext = coordinator.drop(item.dragItem, to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: "ImageCell"))
                 
                 let cell = placeholderContext as? ImageCollectionViewCell
-                cell?.loadingView.startAnimating()
                 
                 var imageURL: URL?
                 var aspectRatio: Double?
@@ -179,6 +177,22 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDrag
                         }
                     }
                     
+                }
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Choose Image" {
+            print("SEegue")
+            if let imageCell = sender as? UICollectionViewCell {
+                print("1")
+                if let indexPath = collectionView?.indexPath(for: imageCell) {
+                    print("2")
+                    if let vc = segue.destination as? ImageViewController {
+                        print("3")
+                        vc.imageView.imageURL = imageCollection[indexPath.item].url
+                    }
                 }
             }
         }

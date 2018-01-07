@@ -10,18 +10,44 @@ import UIKit
 
 class ImageView: UIView {
     
+    var loadingView: UIActivityIndicatorView?
+    
     var imageURL: URL? {
         didSet{
+            image = nil
+            
+//            if let loadingView = subviews.first as? UIActivityIndicatorView {
+//                loadingView.startAnimating()
+//            }
+            if loadingView == nil {
+                loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+                loadingView!.hidesWhenStopped = true
+                addSubview(loadingView!)
+            }
+            
+            loadingView!.center = center
+        
+            loadingView!.startAnimating()
+            
             fetchImage()
         }
     }
     
     var image: UIImage? {
         didSet {
-            setNeedsDisplay()
-            if let loadingView = subviews.first as? UIActivityIndicatorView {
-                loadingView.stopAnimating()
+//            if let loadingView = subviews.first as? UIActivityIndicatorView {
+//                loadingView.stopAnimating()
+//            }
+            loadingView?.stopAnimating()
+            
+            if let scrollView = self.superview as? UIScrollView {
+                frame.size = self.image!.size
+                sizeToFit()
+                print(frame.size)
+                scrollView.contentSize = self.frame.size
             }
+            
+            setNeedsDisplay()
         }
         
     }

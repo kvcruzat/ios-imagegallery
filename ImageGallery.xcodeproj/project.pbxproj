@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3288A54200230F200344944 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3288A53200230F200344944 /* ImageViewController.swift */; };
 		C32DC04A20014E3600984421 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DC04920014E3600984421 /* TableViewController.swift */; };
 		C32DC04C20014E9200984421 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DC04B20014E9200984421 /* GalleryViewCell.swift */; };
 		C32DC0502001558300984421 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32DC04F2001558300984421 /* Image.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C3288A53200230F200344944 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		C32DC04920014E3600984421 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		C32DC04B20014E9200984421 /* GalleryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
 		C32DC04F2001558300984421 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				C3312B341FFE579300ED581D /* Main.storyboard */,
+				C3288A53200230F200344944 /* ImageViewController.swift */,
 				C32DC04B20014E9200984421 /* GalleryViewCell.swift */,
 				C32DC04920014E3600984421 /* TableViewController.swift */,
 				C3312B431FFE647C00ED581D /* CollectionViewController.swift */,
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3312B4A1FFE7DA600ED581D /* ImageView.swift in Sources */,
+				C3288A54200230F200344944 /* ImageViewController.swift in Sources */,
 				C32DC0502001558300984421 /* Image.swift in Sources */,
 				C32DC04A20014E3600984421 /* TableViewController.swift in Sources */,
 				C3312B461FFE736800ED581D /* Utilities.swift in Sources */,
